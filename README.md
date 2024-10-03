@@ -3,6 +3,8 @@
 
 A repository for learning and exploring retinal circuits through data analysis and research projects.
 
+[**Spike Trains**](Spike-train.md)
+
 **About**
 --------
 

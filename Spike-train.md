@@ -1,3 +1,26 @@
+# Spike Train Analysis: From Single Neuron to Multi-Electrode Array
+
+## Introduction
+
+In this notebook, we'll explore two fascinating datasets that provide insights into neuronal activity at different scales. We'll start with a single neuron's response to varying light intensities and then move on to a multi-electrode array recording from multiple neurons.
+
+## Part 1: Single Neuron Response to Varying Light Intensities
+
+### Dataset Description
+
+The `ten_intensities` dataset expands on the optogenetic spike train data we worked with previously. This dataset contains recordings from a single neuron as it was stimulated with ten different intensities of light (550 nm green) that activate its receptors. 
+
+Key features of the dataset:
+- 10 different light intensities
+- 10 trials for each intensity (100 trials total)
+- Each trial lasts 20 ms
+- Optical stimulation starts at 4 ms and ends at 14 ms
+
+The purpose of measuring the neuron's response across a range of intensities is to map out the response "profile" of the neuron in terms of the number of spikes elicited by differing intensities.
+
+### Data Loading and Exploration
+
+
 ```python
 import pandas as pd
 import numpy as np
@@ -7,12 +30,7 @@ import matplotlib.pyplot as plt
 
 # Load the data
 data = pd.read_csv('data/ten_intensities.csv')
-```
 
-Now lets load in the data and take a look
-
-
-```python
 # Take a look at the first few rows of the data
 print(data.head())
 
@@ -52,6 +70,10 @@ print(data.describe())
     max      9.000000    9.000000   20.000000
 
 
+### Data Visualization
+
+Let's visualize the data to better understand the neuron's response patterns.
+
 
 ```python
 # Plot a histogram of the SpikeTime column
@@ -84,6 +106,11 @@ plt.show()
     
 ![png](Spike-train_files/Spike-train_4_0.png)
     
+
+
+### Raster Plots and PSTHs
+
+Now, let's create raster plots and peri-stimulus time histograms (PSTHs) for each intensity level.
 
 
 
@@ -165,9 +192,13 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_5_0.png)
+![png](Spike-train_files/Spike-train_6_0.png)
     
 
+
+### Heat Map of Spike Probability
+
+Finally, let's create a heat map to visualize the spike probability across different intensities and time points.
 
 
 ```python
@@ -198,7 +229,7 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_6_0.png)
+![png](Spike-train_files/Spike-train_8_0.png)
     
 
 
@@ -250,7 +281,7 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_7_0.png)
+![png](Spike-train_files/Spike-train_9_0.png)
     
 
 
@@ -262,6 +293,21 @@ grating_on_time  = 0.0
 grating_off_time = 2.0
 trial_end_time   = 2.5
 ```
+
+## Part 2: Multi-Electrode Array Recordings
+
+### Dataset Description
+
+This dataset comes from a study by Snyder, Morais, Willis, and Smith (2015). The researchers aimed to relate neural activity across different scales, from single units (individual neurons) to whole-brain networks. 
+
+Key features of the dataset:
+- Recordings from a 96-electrode array implanted in a rhesus macaque monkey's brain
+- Simultaneous EEG recordings (not included in this analysis)
+- Focus on spike count correlation, a measure of neural functional connectivity
+
+Functional connectivity is of widespread interest in neuroscience as it refers to correlations in activity between different brain areas. If different brain areas (or individual neurons) show correlated activity, it likely indicates that they work together in some capacity. This is particularly significant if their functional connectivity changes as a result of experimental manipulations.
+
+### Data Loading and Exploration
 
 
 ```python
@@ -379,9 +425,23 @@ plt.show()
 ```
 
 
-    
-![png](Spike-train_files/Spike-train_13_0.png)
-    
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    Cell In[10], line 2
+          1 plt.figure(figsize=(12, 10))
+    ----> 2 sns.heatmap(electrode_pivot, cmap='Blues', annot=True, fmt='.2f', 
+          3             linewidths=0.5, linecolor='white')
+          4 plt.title('Electrode Activity Heatmap')
+          5 plt.xlabel('')
+
+
+    NameError: name 'electrode_pivot' is not defined
+
+
+
+    <Figure size 1200x1000 with 0 Axes>
 
 
 Orientation-Selective Responses
@@ -403,7 +463,7 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_15_0.png)
+![png](Spike-train_files/Spike-train_18_0.png)
     
 
 
@@ -432,27 +492,7 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_16_1.png)
-    
-
-
-
-```python
-# Define the time bins
-time_bins = np.arange(0, 3, 0.1)
-
-# Create PSTHs for each channel and orientation
-fig, axs = plt.subplots(2, 1, figsize=[10, 8], sharey=True)
-
-for idx, ori in enumerate(df['orientation'].unique()):
-    axs[idx].hist(df[df['orientation'] == ori]['time'], bins=time_bins)
-
-plt.show()
-```
-
-
-    
-![png](Spike-train_files/Spike-train_17_0.png)
+![png](Spike-train_files/Spike-train_19_1.png)
     
 
 
@@ -476,7 +516,7 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_18_0.png)
+![png](Spike-train_files/Spike-train_20_0.png)
     
 
 
@@ -493,7 +533,7 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_19_0.png)
+![png](Spike-train_files/Spike-train_21_0.png)
     
 
 
@@ -545,6 +585,6 @@ plt.show()
 
 
     
-![png](Spike-train_files/Spike-train_21_0.png)
+![png](Spike-train_files/Spike-train_23_0.png)
     
 

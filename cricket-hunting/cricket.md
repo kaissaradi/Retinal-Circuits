@@ -136,3 +136,4 @@ fprintf('%f\n', timestamps);
 
 % Optional: Save results to a file
 % save('catch_events.mat', 'timestamps');
+```
